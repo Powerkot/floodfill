@@ -11,21 +11,15 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val size = 100
-        val image = Array(size) {
-            when (it % 2) {
-                0 -> BitSet().apply {
-                    for (i in 0..size) {
-                        set(i, i%2==0)
-                    }
-                }
-                else -> BitSet().apply {
-                    for (i in 0..size) {
-                        set(i, i%2!=0)
-                    }
+        val sizeX = 3
+        val sizeY = 3
+        val image = Array(sizeY) {
+            BitSet().apply {
+                for (j in 0 until sizeX) {
+                    set(j, Math.random() <= 0.5)
                 }
             }
         }
-        floodFillView.image = image
+        floodFillView.setImage(image, sizeX, sizeY)
     }
 }

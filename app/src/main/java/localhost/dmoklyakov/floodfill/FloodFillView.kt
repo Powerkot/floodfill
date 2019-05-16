@@ -13,22 +13,30 @@ import java.util.*
 class FloodFillView(context: Context, attrs: AttributeSet? = null) : View(context, attrs) {
 
     private var paint = Paint()
-    var image: Array<BitSet>? = null
+    private var image: Array<BitSet>? = null
+    private var imgSizeX = 0
+    private var imgSizeY = 0
 
     init {
         paint.isAntiAlias = false
         paint.color = 0xFFFFFFFF.toInt()
     }
 
+    fun setImage(image: Array<BitSet>, sizeX: Int, sizeY: Int) {
+        this.image = image
+        this.imgSizeX = sizeX
+        this.imgSizeY = sizeY
+    }
+
     override fun onDraw(canvas: Canvas) {
         canvas.drawColor(0xFF000000.toInt())
         image?.let {
-            val sizeX = 1f * width / it.size
-            val sizeY = 1f * height / it[0].length()
-            for (y in 0 until it.size) {
-                for (x in 0 until it[y].length()) {
+            val cellSizeX = 1f * width / imgSizeX
+            val cellSizeY = 1f * height / imgSizeY
+            for (y in 0 until imgSizeY) {
+                for (x in 0 until imgSizeX) {
                     if (it[y][x]) {
-                        canvas.drawRect(x * sizeX, y * sizeY, (x + 1) * sizeX, (y + 1) * sizeY, paint)
+                        canvas.drawRect(x * cellSizeX, y * cellSizeY, (x + 1) * cellSizeX, (y + 1) * cellSizeY, paint)
                     }
                 }
             }

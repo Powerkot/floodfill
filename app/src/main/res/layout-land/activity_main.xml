@@ -6,6 +6,6 @@
 
     <localhost.dmoklyakov.floodfill.FloodFillView
         android:id="@+id/floodFillView"
-        android:layout_width="match_parent"
+        android:layout_width="400dp"
         android:layout_height="match_parent" />
 </LinearLayout>
