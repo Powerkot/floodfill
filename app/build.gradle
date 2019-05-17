@@ -23,12 +23,14 @@ ext {
     kotlinxCoroutinesVersion = '1.0.0'
     kotlinKtxVersion = '1.0.2'
     appCompatVersion = '1.0.2'
+    lifecycleExtensionsVersion='2.0.0'
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "androidx.appcompat:appcompat:$appCompatVersion"
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycleExtensionsVersion"
     implementation "androidx.core:core-ktx:$kotlinKtxVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinxCoroutinesVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlinxCoroutinesVersion"
