@@ -1,6 +1,5 @@
 package localhost.dmoklyakov.floodfill
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.project.algorithm.AlgorithmType
@@ -13,10 +12,10 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.*
 
-class FloodFillAlgorithmViewModel(private var width: Int, private var height: Int) : ViewModel() {
+class FloodFillViewModel(private var width: Int, private var height: Int) : ViewModel() {
 
     private var interaction: Interaction = InteractionImpl()
-    var framerate: Int = 1
+    var frameRate: Int = 5
     var imageLiveData: MutableLiveData<Array<BitSet>> = MutableLiveData()
     var isWorking: MutableLiveData<Boolean> = MutableLiveData()
 
@@ -39,27 +38,16 @@ class FloodFillAlgorithmViewModel(private var width: Int, private var height: In
         }
         isWorking.value = true
         interaction.start(x, y, AlgorithmType.SIMPLE_FOUR_LINKED, object : LogicCallback {
-            override fun onCellChanged(x: Int, y: Int) {
-                imageLiveData.value = interaction.getImage().apply {
-                    get(y).set(
-                        x,
-                        !(get(y).get(x))
-                    )
-                } // TODO: пока нет алгоритма, просто инвертирую ячейку
-
+            override fun onCellChanged() {
                 GlobalScope.launch(Dispatchers.Main) {
-                    while (true) {
-                        delay(5000) // TODO: вычесть время выполнения
-                        if (!isWorking.value!!) { // мамой клянусь, тут не будет NPE
-                            break
-                        } else {
-                            interaction.next()
-                        }
-                    }
+                    imageLiveData.value = interaction.getImage()
+                    delay(100) // TODO: вычесть время выполнения и заюзать frameRate
+                    interaction.next()
                 }
             }
 
             override fun onWorkCompleted() {
+                imageLiveData.value = interaction.getImage()
                 isWorking.value = false
             }
         })

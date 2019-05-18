@@ -8,9 +8,6 @@ import android.view.MotionEvent
 import android.view.View
 import java.util.*
 
-/**
- * Simple and stupid view for testing algorithms
- */
 class FloodFillView(context: Context, attrs: AttributeSet? = null) : View(context, attrs) {
 
     interface OnTapListener {
@@ -24,7 +21,6 @@ class FloodFillView(context: Context, attrs: AttributeSet? = null) : View(contex
     private var onTapListener: OnTapListener? = null
 
     /* TODO:
-     * перерисовывать только то, что изменилось
      * настройка каких-нибудь параметров через xml
      * (?) запилить GLSurfaceView с рендером по запросу,
       * сгенерить один квадрат и рисовать его многократно через glDrawArraysInstanced()
@@ -50,7 +46,7 @@ class FloodFillView(context: Context, attrs: AttributeSet? = null) : View(contex
     }
 
     fun setImage(image: Array<BitSet>, sizeX: Int, sizeY: Int) {
-        // TODO: кидать исключение, если x или y < 1
+        if (sizeX < 1 || sizeY < 1) throw IllegalArgumentException("sizeX and sizeY should be greater than 1!")
         this.image = image
         this.imgSizeX = sizeX
         this.imgSizeY = sizeY
@@ -71,10 +67,10 @@ class FloodFillView(context: Context, attrs: AttributeSet? = null) : View(contex
                 for (x in 0 until imgSizeX) {
                     if (it[y][x]) {
                         canvas.drawRect(
-                            x * cellSizeX,
-                            y * cellSizeY,
-                            (x + 1) * cellSizeX,
-                            (y + 1) * cellSizeY,
+                            x * cellSizeX + 1,
+                            y * cellSizeY + 1,
+                            (x + 1) * cellSizeX - 1,
+                            (y + 1) * cellSizeY - 1,
                             paint
                         )
                     }

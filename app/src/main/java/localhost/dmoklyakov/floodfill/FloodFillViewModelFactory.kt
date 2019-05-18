@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 class FloodFillViewModelFactory(var width: Int, var height: Int) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return FloodFillAlgorithmViewModel(width, height) as T // да-да, unchecked cast
+        return FloodFillViewModel(width, height) as T // да-да, unchecked cast
     }
 
 }

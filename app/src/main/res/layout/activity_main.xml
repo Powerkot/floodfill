@@ -1,11 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorBackground"
     android:orientation="vertical">
 
-    <localhost.dmoklyakov.floodfill.FloodFillView
-        android:id="@+id/floodFillView"
+    <Spinner
+        android:id="@+id/spAlgorithms1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorAccent"
+        android:entries="@array/algorithms"
+        android:padding="16dp" />
+
+    <localhost.dmoklyakov.floodfill.FloodFillView
+        android:id="@+id/floodFillView1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_weight="1" />
+
+    <Spinner
+        android:id="@+id/spAlgorithms2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorAccent"
+        android:entries="@array/algorithms"
+        android:padding="16dp" />
+
+    <localhost.dmoklyakov.floodfill.FloodFillView
+        android:id="@+id/floodFillView2"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_weight="1" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="8dp">
+
+        <Button
+            android:id="@+id/btnSize"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorAccent"
+            android:text="@string/size"
+            android:textColor="@color/colorTextPrimary" />
+
+        <Button
+            android:id="@+id/btnGenerate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorAccent"
+            android:text="@string/generate"
+            android:textColor="@color/colorTextPrimary" />
+
+        <TextView
+            android:id="@+id/tvFrameRate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="FPS: 99"
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp"
+            tools:text="FPS: 1" />
+
+        <SeekBar
+            android:id="@+id/sbFrameRate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="59" />
+
+    </LinearLayout>
 </LinearLayout>
