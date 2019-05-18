@@ -12,12 +12,17 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.*
 
+// TODO: разделить логику для 1 и 2 вьюх
 class FloodFillViewModel(private var width: Int, private var height: Int) : ViewModel() {
 
     private var interaction: Interaction = InteractionImpl()
     var frameRate: Int = 5
     var imageLiveData: MutableLiveData<Array<BitSet>> = MutableLiveData()
     var isWorking: MutableLiveData<Boolean> = MutableLiveData()
+    var floodFillView1EnabledColor = MutableLiveData<Int>().apply { value = 0xFFFFFFFF.toInt() }
+    var floodFillView1DisabledColor = MutableLiveData<Int>().apply { value = 0xFF000000.toInt() }
+    var floodFillView2EnabledColor = MutableLiveData<Int>().apply { value = 0xFFFFFFFF.toInt() }
+    var floodFillView2DisabledColor = MutableLiveData<Int>().apply { value = 0xFF000000.toInt() }
 
     init {
         generateImage(width, height)
@@ -41,7 +46,7 @@ class FloodFillViewModel(private var width: Int, private var height: Int) : View
             override fun onCellChanged() {
                 GlobalScope.launch(Dispatchers.Main) {
                     imageLiveData.value = interaction.getImage()
-                    delay(100) // TODO: вычесть время выполнения и заюзать frameRate
+                    delay(50) // TODO: вычесть время выполнения и заюзать frameRate
                     interaction.next()
                 }
             }

@@ -6,13 +6,39 @@
     android:background="@color/colorBackground"
     android:orientation="vertical">
 
-    <Spinner
-        android:id="@+id/spAlgorithms1"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/colorAccent"
-        android:entries="@array/algorithms"
-        android:padding="16dp" />
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <Spinner
+            android:id="@+id/spAlgorithms1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@color/colorAccent"
+            android:entries="@array/algorithms"
+            android:padding="16dp" />
+
+        <View
+            android:id="@+id/vColorSelected1"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/background_color_selector_view"
+            android:text="@string/color"
+            android:textColor="@color/colorTextPrimary" />
+
+        <View
+            android:id="@+id/vColorUnselected1"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/background_color_selector_view"
+            android:text="@string/color"
+            android:textColor="@color/colorTextPrimary" />
+    </LinearLayout>
 
     <localhost.dmoklyakov.floodfill.FloodFillView
         android:id="@+id/floodFillView1"
@@ -22,13 +48,39 @@
         android:layout_marginEnd="8dp"
         android:layout_weight="1" />
 
-    <Spinner
-        android:id="@+id/spAlgorithms2"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/colorAccent"
-        android:entries="@array/algorithms"
-        android:padding="16dp" />
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <Spinner
+            android:id="@+id/spAlgorithms2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@color/colorAccent"
+            android:entries="@array/algorithms"
+            android:padding="16dp" />
+
+        <View
+            android:id="@+id/vColorSelected2"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/background_color_selector_view"
+            android:text="@string/color"
+            android:textColor="@color/colorTextPrimary" />
+
+        <View
+            android:id="@+id/vColorUnselected2"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/background_color_selector_view"
+            android:text="@string/color"
+            android:textColor="@color/colorTextPrimary" />
+    </LinearLayout>
 
     <localhost.dmoklyakov.floodfill.FloodFillView
         android:id="@+id/floodFillView2"
@@ -66,7 +118,7 @@
             android:id="@+id/tvFrameRate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="FPS: 99"
+            android:hint="FPS: 60"
             android:paddingStart="4dp"
             android:paddingEnd="4dp"
             tools:text="FPS: 1" />

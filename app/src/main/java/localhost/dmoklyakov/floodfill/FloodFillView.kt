@@ -14,14 +14,28 @@ class FloodFillView(context: Context, attrs: AttributeSet? = null) : View(contex
         fun onTapAtCell(x: Int, y: Int)
     }
 
-    private var paint = Paint()
     private var image: Array<BitSet>? = null
     private var imgSizeX = 0
     private var imgSizeY = 0
     private var onTapListener: OnTapListener? = null
+    var enabledColor = 0xFFFFFFFF.toInt()
+        set(value) {
+            field = value
+            paint.color = value
+            invalidate()
+        }
+    var disabledColor = 0xFF000000.toInt()
+        set(value) {
+            field = value
+            invalidate()
+        }
+    private var paint = Paint().apply {
+        color = enabledColor
+        isAntiAlias = false
+    }
 
     /* TODO:
-     * настройка каких-нибудь параметров через xml
+     * настройка параметров через xml
      * (?) запилить GLSurfaceView с рендером по запросу,
       * сгенерить один квадрат и рисовать его многократно через glDrawArraysInstanced()
      * (?) ИЛИ передавать кучу данных о закрашенных ячейках
@@ -30,9 +44,6 @@ class FloodFillView(context: Context, attrs: AttributeSet? = null) : View(contex
      */
 
     init {
-        paint.isAntiAlias = false
-        paint.color = 0xFFFFFFFF.toInt()
-
         setOnTouchListener { _, event ->
             // TODO: определять просто тап, а не отпускание пальца (вроде GestureDetector умеет это)
             if (event.action == MotionEvent.ACTION_UP || event.action == MotionEvent.ACTION_POINTER_UP) {
@@ -58,8 +69,7 @@ class FloodFillView(context: Context, attrs: AttributeSet? = null) : View(contex
     }
 
     override fun onDraw(canvas: Canvas) {
-        canvas.drawColor(0xFF000000.toInt())
-        paint.color = 0xFFFFFFFF.toInt()
+        canvas.drawColor(disabledColor)
         image?.let {
             val cellSizeX = 1f * width / imgSizeX
             val cellSizeY = 1f * height / imgSizeY
@@ -67,10 +77,10 @@ class FloodFillView(context: Context, attrs: AttributeSet? = null) : View(contex
                 for (x in 0 until imgSizeX) {
                     if (it[y][x]) {
                         canvas.drawRect(
-                            x * cellSizeX + 1,
-                            y * cellSizeY + 1,
-                            (x + 1) * cellSizeX - 1,
-                            (y + 1) * cellSizeY - 1,
+                            x * cellSizeX,
+                            y * cellSizeY,
+                            (x + 1) * cellSizeX,
+                            (y + 1) * cellSizeY,
                             paint
                         )
                     }
