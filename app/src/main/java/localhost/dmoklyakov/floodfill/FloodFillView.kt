@@ -4,9 +4,21 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.util.AttributeSet
+import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
+import com.project.floodfill.R
 import java.util.*
+
+/* TODO:
+ * (?) запилить GLSurfaceView с рендером по запросу,
+  * сгенерить один квадрат и рисовать его многократно через glDrawArraysInstanced()
+ * (?) ИЛИ передавать кучу данных о закрашенных ячейках
+  * во фрагментный шейдер и рисовать прямоугольнички в нём
+  * (кажется, это будет сильно медленнее)
+ * (?) ну или хотя бы для сокращения количества вызовов отрисовки в этой вьюхе смотреть, сколько ячеек закрашено
+ * и сколько не закрашено и рисовать те, которых меньше
+ */
 
 class FloodFillView(context: Context, attrs: AttributeSet? = null) : View(context, attrs) {
 
@@ -18,41 +30,57 @@ class FloodFillView(context: Context, attrs: AttributeSet? = null) : View(contex
     private var imgSizeX = 0
     private var imgSizeY = 0
     private var onTapListener: OnTapListener? = null
-    var enabledColor = 0xFFFFFFFF.toInt()
+    var color1 = 0
         set(value) {
             field = value
             paint.color = value
             invalidate()
         }
-    var disabledColor = 0xFF000000.toInt()
+    var color2 = 0
         set(value) {
             field = value
             invalidate()
         }
     private var paint = Paint().apply {
-        color = enabledColor
+        color = color1
         isAntiAlias = false
     }
 
-    /* TODO:
-     * настройка параметров через xml
-     * (?) запилить GLSurfaceView с рендером по запросу,
-      * сгенерить один квадрат и рисовать его многократно через glDrawArraysInstanced()
-     * (?) ИЛИ передавать кучу данных о закрашенных ячейках
-      * во фрагментный шейдер и рисовать прямоугольнички в нём
-      * (кажется, это будет сильно медленнее)
-     */
-
     init {
-        setOnTouchListener { _, event ->
-            // TODO: определять просто тап, а не отпускание пальца (вроде GestureDetector умеет это)
-            if (event.action == MotionEvent.ACTION_UP || event.action == MotionEvent.ACTION_POINTER_UP) {
+        context.theme.obtainStyledAttributes(attrs, R.styleable.FloodFillView, 0, 0)
+            .apply {
+                color1 =
+                    getColor(R.styleable.FloodFillView_ffv_color1, 0xFFFFFFFF.toInt())
+                color2 =
+                    getColor(R.styleable.FloodFillView_ffv_color2, 0xFF000000.toInt())
+            }.recycle()
+
+        val gestureDetector = GestureDetector(context, object : GestureDetector.OnGestureListener {
+            override fun onShowPress(event: MotionEvent?) {}
+
+            override fun onDown(event: MotionEvent) = true
+
+            override fun onFling(
+                event1: MotionEvent, event2: MotionEvent, velocityX: Float, velocityY: Float
+            ) = false
+
+            override fun onScroll(
+                event1: MotionEvent, event2: MotionEvent, distanceX: Float, distanceY: Float
+            ) = false
+
+            override fun onLongPress(event: MotionEvent) {}
+
+            override fun onSingleTapUp(event: MotionEvent): Boolean {
                 onTapListener?.onTapAtCell(
                     (event.x / width * imgSizeX).toInt(),
                     (event.y / height * imgSizeY).toInt()
                 )
+                return true
             }
-            return@setOnTouchListener true
+
+        })
+        setOnTouchListener { _, event ->
+            return@setOnTouchListener gestureDetector.onTouchEvent(event)
         }
     }
 
@@ -69,7 +97,7 @@ class FloodFillView(context: Context, attrs: AttributeSet? = null) : View(contex
     }
 
     override fun onDraw(canvas: Canvas) {
-        canvas.drawColor(disabledColor)
+        canvas.drawColor(color2)
         image?.let {
             val cellSizeX = 1f * width / imgSizeX
             val cellSizeY = 1f * height / imgSizeY

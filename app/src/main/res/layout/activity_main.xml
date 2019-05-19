@@ -22,7 +22,7 @@
             android:padding="16dp" />
 
         <View
-            android:id="@+id/vColorSelected1"
+            android:id="@+id/vColor1_1"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_marginEnd="8dp"
@@ -31,7 +31,7 @@
             android:textColor="@color/colorTextPrimary" />
 
         <View
-            android:id="@+id/vColorUnselected1"
+            android:id="@+id/vColor1_2"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_marginEnd="16dp"
@@ -64,7 +64,7 @@
             android:padding="16dp" />
 
         <View
-            android:id="@+id/vColorSelected2"
+            android:id="@+id/vColor2_1"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_marginEnd="8dp"
@@ -73,7 +73,7 @@
             android:textColor="@color/colorTextPrimary" />
 
         <View
-            android:id="@+id/vColorUnselected2"
+            android:id="@+id/vColor2_2"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_marginEnd="16dp"
@@ -126,8 +126,7 @@
         <SeekBar
             android:id="@+id/sbFrameRate"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:max="59" />
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 </LinearLayout>
