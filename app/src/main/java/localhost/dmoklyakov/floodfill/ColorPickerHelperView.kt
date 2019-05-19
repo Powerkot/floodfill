@@ -5,9 +5,10 @@ import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
 import android.view.View
+import com.project.floodfill.R
+import localhost.dmoklyakov.floodfill.Utils.dpToPx
 
-// TODO: можно хранить координаты выделения в диапазоне от 0 до 1 (чтоб вьюхе было плевать на её размеры)
-// TODO: настройка вьюхи из xml
+// TODO: можно хранить координаты выделения в диапазоне от 0 до 1 (чтоб вьюхе было плевать на ресайз)
 
 class ColorPickerHelperView(context: Context, attrs: AttributeSet?) :
     View(context, attrs) {
@@ -18,28 +19,43 @@ class ColorPickerHelperView(context: Context, attrs: AttributeSet?) :
 
     var onColorSelectedListener: OnColorSelectedListener? = null
     private var selection = 0
-    var thumbSize = 30f
+    var thumbSize = 0f
         set(value) {
             field = value
+            updateSelectionToolRect()
             invalidate()
         }
-    var thumbBorderWidth = 8f
+    var thumbBorderWidth = 0f
         set(value) {
             field = value
-            paint.strokeWidth = value / 2f
+            paint.strokeWidth = value
+            updateSelectionToolRect()
             invalidate()
         }
     private var paint = Paint().apply {
         style = Paint.Style.STROKE
-        strokeWidth = thumbBorderWidth / 2
+        strokeWidth = thumbBorderWidth
         isAntiAlias = false
     }
 
     private lateinit var gradient: LinearGradient
     private lateinit var bitmap: Bitmap
     private lateinit var bitmapCanvas: Canvas
+    private var selectionToolRect = RectF()
 
     init {
+        context.theme.obtainStyledAttributes(attrs, R.styleable.ColorPickerHelperView, 0, 0)
+            .apply {
+                thumbSize =
+                    getDimension(
+                        R.styleable.ColorPickerHelperView_cphv_thumbSize,
+                        dpToPx(context, 30f)
+                    )
+                thumbBorderWidth = getDimension(
+                    R.styleable.ColorPickerHelperView_cphv_thumbBorderWidth,
+                    dpToPx(context, 2f)
+                )
+            }.recycle()
         setOnTouchListener { _, event ->
             selection = event.y.toInt()
             if (selection < 0) {
@@ -48,6 +64,7 @@ class ColorPickerHelperView(context: Context, attrs: AttributeSet?) :
                 selection = height - 1
             }
             onColorSelectedListener?.onColorSelected(bitmap.getPixel(0, selection))
+            updateSelectionToolRect()
             invalidate()
             true
         }
@@ -94,7 +111,17 @@ class ColorPickerHelperView(context: Context, attrs: AttributeSet?) :
         )
         bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
         bitmapCanvas = Canvas(bitmap)
+        updateSelectionToolRect()
         update()
+    }
+
+    fun updateSelectionToolRect() {
+        selectionToolRect.set(
+            thumbBorderWidth / 2f,
+            selection - thumbSize / 2f - thumbBorderWidth / 2f,
+            width.toFloat() - thumbBorderWidth / 2f,
+            selection + thumbSize / 2f + thumbBorderWidth / 2f
+        )
     }
 
     override fun draw(canvas: Canvas) {
@@ -105,21 +132,11 @@ class ColorPickerHelperView(context: Context, attrs: AttributeSet?) :
 
         canvas.drawBitmap(bitmap, 0f, 0f, paint)
         paint.shader = null
+        paint.style = Paint.Style.FILL
+        paint.color = bitmap.getPixel(0, selection)
+        canvas.drawRect(selectionToolRect, paint)
+        paint.style = Paint.Style.STROKE
         paint.color = 0xFF000000.toInt()
-        canvas.drawRect(
-            0f,
-            selection - thumbSize / 2,
-            width.toFloat(),
-            selection + thumbSize / 2,
-            paint
-        )
-        paint.color = 0xFFFFFFFF.toInt()
-        canvas.drawRect(
-            0f,
-            selection - thumbSize / 2 + thumbBorderWidth / 2,
-            width.toFloat(),
-            selection + thumbSize / 2 - thumbBorderWidth / 2,
-            paint
-        )
+        canvas.drawRect(selectionToolRect, paint)
     }
 }
