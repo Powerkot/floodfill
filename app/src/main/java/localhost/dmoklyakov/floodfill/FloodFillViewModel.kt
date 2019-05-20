@@ -4,6 +4,8 @@ import android.os.Handler
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.project.algorithm.Generator
+import java.util.*
+import kotlin.collections.ArrayList
 
 class FloodFillViewModel : ViewModel() {
 
@@ -51,7 +53,10 @@ class FloodFillViewModel : ViewModel() {
         height = newHeight
         val image = Generator().generate(width, height, System.currentTimeMillis())
         for (viewState in viewStates) {
-            viewState.setImage(width, height, image.clone())
+            val clonedImg = Array(height) {
+                image[it].clone() as BitSet
+            }
+            viewState.setImage(width, height, clonedImg)
         }
     }
 
