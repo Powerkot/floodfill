@@ -1,17 +1,15 @@
 package localhost.dmoklyakov.floodfill
 
+
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.project.algorithm.Generator
 import com.project.algorithm.Interaction
 import com.project.algorithm.InteractionImpl
 import com.project.algorithm.LogicCallback
 import com.project.algorithm.algorithms.AlgorithmType
-
-
 import java.util.*
 
-class FloodFillViewState(width: Int, height: Int) : LogicCallback, ViewModel() {
+class FloodFillViewState : LogicCallback, ViewModel() {
 
     enum class State {
         IDLE, // не делаем ничего
@@ -23,7 +21,7 @@ class FloodFillViewState(width: Int, height: Int) : LogicCallback, ViewModel() {
     private var interaction: Interaction = InteractionImpl()
     private var startX = -1
     private var startY = -1
-    var algorithmType = AlgorithmType.FOUR_WAY
+    var algorithmType = AlgorithmType.LINE
     var image = MutableLiveData<Array<BitSet>>()
     var state = MutableLiveData<State>().apply { value = State.IDLE }
     var color1 = MutableLiveData<Int>().apply { value = 0xFFFFFFFF.toInt() }

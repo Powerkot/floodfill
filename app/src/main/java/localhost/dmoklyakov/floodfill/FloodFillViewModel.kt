@@ -4,6 +4,7 @@ import android.os.Handler
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.project.algorithm.Generator
+import kotlinx.coroutines.Runnable
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -19,12 +20,12 @@ class FloodFillViewModel : ViewModel() {
     var newHeight = height
 
     init {
-
-        viewStates.add(FloodFillViewState(width, height))
-        viewStates.add(FloodFillViewState(width, height))
+        viewStates.add(FloodFillViewState())
+        viewStates.add(FloodFillViewState())
         generate()
     }
 
+    // кажется, заюзать handler было не лучшей идеей (мееееееееедленно), поправлю, если будет время :)
     private var runnable: Runnable = object : Runnable {
         override fun run() {
             var shouldPost = false
@@ -47,6 +48,7 @@ class FloodFillViewModel : ViewModel() {
             }
         }
     }
+
 
     fun generate() {
         width = newWidth
