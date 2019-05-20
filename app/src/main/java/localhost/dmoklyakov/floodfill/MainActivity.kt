@@ -21,11 +21,6 @@ import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
-    /* TODO:
-     * создать стили, повыносить значения в ресурсы
-     * СДЕЛАТЬ В КОДЕ КРАСИВО
-     */
-
     private lateinit var floodFillViewModel: FloodFillViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,8 +35,10 @@ class MainActivity : AppCompatActivity() {
             override fun onTapAtCell(x: Int, y: Int) {
                 when (spAlgorithms1.selectedItemPosition) {
                     0 -> floodFillViewModel.viewStates[0].algorithmType = AlgorithmType.FOUR_WAY
-                    1 -> floodFillViewModel.viewStates[0].algorithmType = AlgorithmType.LINE_HORIZONTAL
-                    2 -> floodFillViewModel.viewStates[0].algorithmType = AlgorithmType.LINE_VERTICAL
+                    1 -> floodFillViewModel.viewStates[0].algorithmType =
+                        AlgorithmType.LINE_HORIZONTAL
+                    2 -> floodFillViewModel.viewStates[0].algorithmType =
+                        AlgorithmType.LINE_VERTICAL
                 }
                 floodFillViewModel.start(x, y, 0)
             }
@@ -55,8 +52,10 @@ class MainActivity : AppCompatActivity() {
             override fun onTapAtCell(x: Int, y: Int) {
                 when (spAlgorithms2.selectedItemPosition) {
                     0 -> floodFillViewModel.viewStates[1].algorithmType = AlgorithmType.FOUR_WAY
-                    1 -> floodFillViewModel.viewStates[1].algorithmType = AlgorithmType.LINE_HORIZONTAL
-                    2 -> floodFillViewModel.viewStates[1].algorithmType = AlgorithmType.LINE_VERTICAL
+                    1 -> floodFillViewModel.viewStates[1].algorithmType =
+                        AlgorithmType.LINE_HORIZONTAL
+                    2 -> floodFillViewModel.viewStates[1].algorithmType =
+                        AlgorithmType.LINE_VERTICAL
                 }
                 floodFillViewModel.start(x, y, 1)
             }
@@ -123,7 +122,8 @@ class MainActivity : AppCompatActivity() {
         })
         sbFrameRate.progress = floodFillViewModel.frameRate - 1
 
-        tvFrameRate.hint = resources.getString(R.string.frame_rate, floodFillViewModel.maxFrameRate + 1)
+        tvFrameRate.hint =
+            resources.getString(R.string.frame_rate, floodFillViewModel.maxFrameRate + 1)
 
         btnSize?.setOnClickListener {
             showSizeDialog()
@@ -137,7 +137,13 @@ class MainActivity : AppCompatActivity() {
             override fun afterTextChanged(s: Editable) {
                 if (s.isNotBlank()) {
                     if (s.toString().toInt() > floodFillViewModel.maxWidth) {
-                        s.replace(0, s.length, floodFillViewModel.maxWidth.toString(), 0, floodFillViewModel.maxWidth.toString().length)
+                        s.replace(
+                            0,
+                            s.length,
+                            floodFillViewModel.maxWidth.toString(),
+                            0,
+                            floodFillViewModel.maxWidth.toString().length
+                        )
                     }
                     floodFillViewModel.newWidth = s.toString().toInt()
                 } else {
@@ -152,7 +158,13 @@ class MainActivity : AppCompatActivity() {
             override fun afterTextChanged(s: Editable) {
                 if (s.isNotBlank()) {
                     if (s.toString().toInt() > floodFillViewModel.maxHeight) {
-                        s.replace(0, s.length, floodFillViewModel.maxHeight.toString(), 0, floodFillViewModel.maxHeight.toString().length)
+                        s.replace(
+                            0,
+                            s.length,
+                            floodFillViewModel.maxHeight.toString(),
+                            0,
+                            floodFillViewModel.maxHeight.toString().length
+                        )
                     }
                     floodFillViewModel.newHeight = s.toString().toInt()
                 } else {
@@ -190,7 +202,13 @@ class MainActivity : AppCompatActivity() {
         dialog.etDlgWidth.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {
                 if (s.isNotBlank() && s.toString().toInt() > floodFillViewModel.maxWidth) {
-                    s.replace(0, s.length, floodFillViewModel.maxWidth.toString(), 0, floodFillViewModel.maxWidth.toString().length)
+                    s.replace(
+                        0,
+                        s.length,
+                        floodFillViewModel.maxWidth.toString(),
+                        0,
+                        floodFillViewModel.maxWidth.toString().length
+                    )
                 }
             }
 
@@ -200,7 +218,13 @@ class MainActivity : AppCompatActivity() {
         dialog.etDlgHeight.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {
                 if (s.isNotBlank() && s.toString().toInt() > floodFillViewModel.maxHeight) {
-                    s.replace(0, s.length, floodFillViewModel.maxWidth.toString(), 0, floodFillViewModel.maxHeight.toString().length)
+                    s.replace(
+                        0,
+                        s.length,
+                        floodFillViewModel.maxWidth.toString(),
+                        0,
+                        floodFillViewModel.maxHeight.toString().length
+                    )
                 }
             }
 
