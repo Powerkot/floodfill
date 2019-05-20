@@ -1,9 +1,10 @@
 package com.project.algorithm
 
+import com.project.algorithm.algorithms.*
 import com.project.algorithm.algorithms.AlgIterator
-import com.project.algorithm.algorithms.AlgorithmType
 import com.project.algorithm.algorithms.FourWayAlg
-import com.project.algorithm.algorithms.LineAlg
+import com.project.algorithm.algorithms.LineHorizontalAlg
+import com.project.algorithm.algorithms.LineVerticalAlg
 import com.project.algorithm.models.Cell
 import java.util.*
 
@@ -43,8 +44,8 @@ class InteractionImpl : Interaction {
                     logicCallback
                 )
             }
-            AlgorithmType.LINE -> {
-                algIterator = LineAlg(
+            AlgorithmType.LINE_HORIZONTAL -> {
+                algIterator = LineHorizontalAlg(
                     image,
                     imgWidth,
                     imgHeight,
@@ -52,8 +53,14 @@ class InteractionImpl : Interaction {
                     logicCallback
                 )
             }
-            AlgorithmType.THREE -> {
-                //TODO
+            AlgorithmType.LINE_VERTICAL -> {
+                algIterator = LineVerticalAlg(
+                        image,
+                        imgWidth,
+                        imgHeight,
+                        startCell,
+                        logicCallback
+                )
             }
         }
 
