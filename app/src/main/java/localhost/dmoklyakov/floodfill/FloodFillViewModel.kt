@@ -3,6 +3,7 @@ package localhost.dmoklyakov.floodfill
 import android.os.Handler
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.project.algorithm.Generator
 
 class FloodFillViewModel : ViewModel() {
 
@@ -16,8 +17,10 @@ class FloodFillViewModel : ViewModel() {
     var newHeight = height
 
     init {
+
         viewStates.add(FloodFillViewState(width, height))
         viewStates.add(FloodFillViewState(width, height))
+        generate()
     }
 
     private var runnable: Runnable = object : Runnable {
@@ -46,13 +49,10 @@ class FloodFillViewModel : ViewModel() {
     fun generate() {
         width = newWidth
         height = newHeight
+        val image = Generator().generate(width, height, System.currentTimeMillis())
         for (viewState in viewStates) {
-            viewState.generate(width, height)
+            viewState.setImage(width, height, image.clone())
         }
-        // TODO: var image = generateImage()
-        // for (viewState in viewStates) {
-        //     viewState.setImage(image.clone)
-        // }
     }
 
     fun start(x: Int, y: Int, index: Int) {
