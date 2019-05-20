@@ -10,7 +10,7 @@ internal class LineHorizontalAlg(
     private val imgHeight: Int,
     startCell: Cell,
     private val logicCallback: LogicCallback
-) : AlgIterator {
+) : IAlgorithm {
 
     private val queue = LinkedList<Cell>()
 
@@ -34,13 +34,13 @@ internal class LineHorizontalAlg(
             while (x < imgWidth && image[y][x] == cell.isShaded) {
                 image[y][x] = !cell.isShaded
                 if (!spanUp && y > 0 && image[y - 1][x] == cell.isShaded) {
-                    queue.add(Cell( x, y - 1, cell.isShaded))
+                    pushUniqueCell(x, y - 1)
                     spanUp = true
                 } else if (spanUp && y > 0 && image[y - 1][x] != cell.isShaded) {
                     spanUp = false
                 }
                 if (!spanDown && y < imgHeight - 1 && image[y + 1][x] == cell.isShaded) {
-                    queue.add(Cell( x, y + 1, cell.isShaded))
+                    pushUniqueCell(x, y + 1)
                     spanDown = true
                 } else if (spanDown && y < imgHeight - 1 && image[y + 1][x] != cell.isShaded) {
                     spanDown = false
@@ -49,5 +49,29 @@ internal class LineHorizontalAlg(
             }
             logicCallback.onSingleIterationCompleted()
         }
+    }
+
+    override fun pushUniqueCell(widthIndex: Int, heightIndex: Int) {
+        if (isCollectionAlreadyContainThisCell(widthIndex, heightIndex).not()) {
+            queue.push(
+                    Cell(
+                            widthIndex,
+                            heightIndex,
+                            image[heightIndex][widthIndex]
+                    )
+            )
+        }
+    }
+
+    override fun isCollectionAlreadyContainThisCell(widthIndex: Int, heightIndex: Int): Boolean {
+        var isAlreadyContainThisCell = false
+        val listIterator = queue.listIterator()
+        while (listIterator.hasNext() && !isAlreadyContainThisCell) {
+            val cell = listIterator.next()
+            if (cell.widthIndex == widthIndex && cell.heightIndex == heightIndex) {
+                isAlreadyContainThisCell = true
+            }
+        }
+        return isAlreadyContainThisCell
     }
 }
