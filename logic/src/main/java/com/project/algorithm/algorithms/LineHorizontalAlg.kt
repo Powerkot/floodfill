@@ -4,7 +4,7 @@ import com.project.algorithm.LogicCallback
 import com.project.algorithm.models.Cell
 import java.util.*
 
-internal class LineAlg(
+internal class LineHorizontalAlg(
     private val image: Array<BitSet>,
     private val imgWidth: Int,
     private val imgHeight: Int,
