@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ColorPickerView">
+        <attr name="cpv_thumbSize" format="dimension" />
+        <attr name="cpv_thumbBorderWidth" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="ColorPickerHelperView">
+        <attr name="cphv_thumbSize" format="dimension" />
+        <attr name="cphv_thumbBorderWidth" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="FloodFillView">
+        <attr name="ffv_color1" format="color" />
+        <attr name="ffv_color2" format="color" />
+    </declare-styleable>
+
+</resources>

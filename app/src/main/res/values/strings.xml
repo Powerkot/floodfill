@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">FloodFill</string>
+    <string name="color">Color</string>
+    <string name="size">Size</string>
+    <string name="generate">Generate</string>
+    <string name="frame_rate">FPS: %d</string>
+    <string name="apply">Apply</string>
+    <string name="cancel">Cancel</string>
+    <string name="size_divider">×</string>
 </resources>
