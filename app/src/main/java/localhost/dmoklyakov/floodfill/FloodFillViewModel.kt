@@ -1,10 +1,10 @@
 package localhost.dmoklyakov.floodfill
 
 import android.os.Handler
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.project.algorithm.Generator
-import kotlinx.coroutines.Runnable
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -28,7 +28,6 @@ class FloodFillViewModel : ViewModel() {
         generate()
     }
 
-    // кажется, заюзать handler было не лучшей идеей (мееееееееедленно), поправлю, если будет время :)
     private var runnable: Runnable = object : Runnable {
         override fun run() {
             var shouldPost = false
@@ -51,7 +50,6 @@ class FloodFillViewModel : ViewModel() {
             }
         }
     }
-
 
     fun generate() {
         width = newWidth
