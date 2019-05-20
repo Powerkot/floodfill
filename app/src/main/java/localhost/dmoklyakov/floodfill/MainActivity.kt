@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.project.algorithm.algorithms.AlgorithmType
 import com.project.floodfill.R
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.dialog_color_picker.*
@@ -22,14 +23,10 @@ class MainActivity : AppCompatActivity() {
 
     /* TODO:
      * создать стили, повыносить значения в ресурсы
-     * (?) заюзать ConstraintLayout в разметке
      * СДЕЛАТЬ В КОДЕ КРАСИВО
      */
 
     private lateinit var floodFillViewModel: FloodFillViewModel
-
-    private val maxWidth = 512
-    private val maxHeight = 512
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +38,11 @@ class MainActivity : AppCompatActivity() {
 
         floodFillView1.setOnTapListener(object : FloodFillView.OnTapListener {
             override fun onTapAtCell(x: Int, y: Int) {
+                when (spAlgorithms1.selectedItemPosition) {
+                    0 -> floodFillViewModel.viewStates[0].algorithmType = AlgorithmType.FOUR_WAY
+                    1 -> floodFillViewModel.viewStates[0].algorithmType = AlgorithmType.LINE_HORIZONTAL
+                    2 -> floodFillViewModel.viewStates[0].algorithmType = AlgorithmType.LINE_VERTICAL
+                }
                 floodFillViewModel.start(x, y, 0)
             }
         })
@@ -51,6 +53,11 @@ class MainActivity : AppCompatActivity() {
 
         floodFillView2.setOnTapListener(object : FloodFillView.OnTapListener {
             override fun onTapAtCell(x: Int, y: Int) {
+                when (spAlgorithms2.selectedItemPosition) {
+                    0 -> floodFillViewModel.viewStates[1].algorithmType = AlgorithmType.FOUR_WAY
+                    1 -> floodFillViewModel.viewStates[1].algorithmType = AlgorithmType.LINE_HORIZONTAL
+                    2 -> floodFillViewModel.viewStates[1].algorithmType = AlgorithmType.LINE_VERTICAL
+                }
                 floodFillViewModel.start(x, y, 1)
             }
         })
@@ -99,7 +106,7 @@ class MainActivity : AppCompatActivity() {
                 repaintRippleView(vColor2_2, it)
             })
 
-        sbFrameRate.max = 59
+        sbFrameRate.max = floodFillViewModel.maxFrameRate - 1
         sbFrameRate.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
                 floodFillViewModel.frameRate = progress + 1
@@ -116,23 +123,25 @@ class MainActivity : AppCompatActivity() {
         })
         sbFrameRate.progress = floodFillViewModel.frameRate - 1
 
+        tvFrameRate.hint = resources.getString(R.string.frame_rate, floodFillViewModel.maxFrameRate + 1)
+
         btnSize?.setOnClickListener {
             showSizeDialog()
         }
 
-        etWidth?.hint = maxWidth.toString()
-        etHeight?.hint = maxHeight.toString()
+        etWidth?.hint = floodFillViewModel.maxWidth.toString()
+        etHeight?.hint = floodFillViewModel.maxHeight.toString()
         etWidth?.setText(floodFillViewModel.newWidth.toString())
         etHeight?.setText(floodFillViewModel.newHeight.toString())
         etWidth?.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {
                 if (s.isNotBlank()) {
-                    if (s.toString().toInt() > maxWidth) {
-                        s.replace(0, s.length, maxWidth.toString(), 0, maxWidth.toString().length)
+                    if (s.toString().toInt() > floodFillViewModel.maxWidth) {
+                        s.replace(0, s.length, floodFillViewModel.maxWidth.toString(), 0, floodFillViewModel.maxWidth.toString().length)
                     }
                     floodFillViewModel.newWidth = s.toString().toInt()
                 } else {
-                    floodFillViewModel.newWidth = maxWidth
+                    floodFillViewModel.newWidth = floodFillViewModel.maxWidth
                 }
             }
 
@@ -142,12 +151,12 @@ class MainActivity : AppCompatActivity() {
         etHeight?.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {
                 if (s.isNotBlank()) {
-                    if (s.toString().toInt() > maxHeight) {
-                        s.replace(0, s.length, maxHeight.toString(), 0, maxHeight.toString().length)
+                    if (s.toString().toInt() > floodFillViewModel.maxHeight) {
+                        s.replace(0, s.length, floodFillViewModel.maxHeight.toString(), 0, floodFillViewModel.maxHeight.toString().length)
                     }
                     floodFillViewModel.newHeight = s.toString().toInt()
                 } else {
-                    floodFillViewModel.newHeight = maxHeight
+                    floodFillViewModel.newHeight = floodFillViewModel.maxHeight
                 }
             }
 
@@ -155,7 +164,7 @@ class MainActivity : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
         })
 
-        btnGenerate.setOnClickListener{
+        btnGenerate.setOnClickListener {
             floodFillViewModel.generate()
         }
 
@@ -173,15 +182,15 @@ class MainActivity : AppCompatActivity() {
     private fun showSizeDialog() {
         val dialog = Dialog(this)
         dialog.setContentView(R.layout.dialog_size)
-        dialog.etDlgWidth.hint = maxWidth.toString()
-        dialog.etDlgHeight.hint = maxHeight.toString()
+        dialog.etDlgWidth.hint = floodFillViewModel.maxWidth.toString()
+        dialog.etDlgHeight.hint = floodFillViewModel.maxHeight.toString()
         dialog.etDlgWidth.setText(floodFillViewModel.newWidth.toString())
         dialog.etDlgHeight.setText(floodFillViewModel.newHeight.toString())
 
         dialog.etDlgWidth.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {
-                if (s.isNotBlank() && s.toString().toInt() > maxWidth) {
-                    s.replace(0, s.length, maxWidth.toString(), 0, maxWidth.toString().length)
+                if (s.isNotBlank() && s.toString().toInt() > floodFillViewModel.maxWidth) {
+                    s.replace(0, s.length, floodFillViewModel.maxWidth.toString(), 0, floodFillViewModel.maxWidth.toString().length)
                 }
             }
 
@@ -190,8 +199,8 @@ class MainActivity : AppCompatActivity() {
         })
         dialog.etDlgHeight.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {
-                if (s.isNotBlank() && s.toString().toInt() > maxHeight) {
-                    s.replace(0, s.length, maxWidth.toString(), 0, maxHeight.toString().length)
+                if (s.isNotBlank() && s.toString().toInt() > floodFillViewModel.maxHeight) {
+                    s.replace(0, s.length, floodFillViewModel.maxWidth.toString(), 0, floodFillViewModel.maxHeight.toString().length)
                 }
             }
 
@@ -206,12 +215,12 @@ class MainActivity : AppCompatActivity() {
             if (dialog.etDlgWidth.text.isNotBlank()) {
                 floodFillViewModel.newWidth = dialog.etDlgWidth.text.toString().toInt()
             } else {
-                floodFillViewModel.newWidth = maxWidth
+                floodFillViewModel.newWidth = floodFillViewModel.maxWidth
             }
             if (dialog.etDlgHeight.text.isNotBlank()) {
                 floodFillViewModel.newHeight = dialog.etDlgHeight.text.toString().toInt()
             } else {
-                floodFillViewModel.newHeight = maxHeight
+                floodFillViewModel.newHeight = floodFillViewModel.maxHeight
             }
             dialog.dismiss()
         }

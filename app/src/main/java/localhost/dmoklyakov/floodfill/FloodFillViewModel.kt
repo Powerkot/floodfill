@@ -18,6 +18,9 @@ class FloodFillViewModel : ViewModel() {
     var height = 5
     var newWidth = width
     var newHeight = height
+    val maxWidth = 512
+    val maxHeight = 512
+    val maxFrameRate = 60
 
     init {
         viewStates.add(FloodFillViewState())
