@@ -6,4 +6,5 @@
     <string name="frame_rate">FPS: %d</string>
     <string name="apply">Apply</string>
     <string name="cancel">Cancel</string>
+    <string name="size_divider">×</string>
 </resources>

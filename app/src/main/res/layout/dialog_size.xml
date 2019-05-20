@@ -22,7 +22,7 @@
         android:id="@+id/tvDivider"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="×"
+        android:text="@string/size_divider"
         android:textColor="#000"
         app:layout_constraintBottom_toBottomOf="@id/etDlgWidth"
         app:layout_constraintEnd_toEndOf="parent"
