@@ -10,7 +10,7 @@ internal class FourWayAlg(
     private val imgHeight: Int,
     startCell: Cell,
     private val logicCallback: LogicCallback
-) : AlgIterator {
+) : IAlgorithm {
 
     private val stack = Stack<Cell>()
 
@@ -24,47 +24,47 @@ internal class FourWayAlg(
             image[cell.heightIndex][cell.widthIndex] = !cell.isShaded
             //Проверка соседа справа
             if (cell.widthIndex + 1 < imgWidth && image[cell.heightIndex][cell.widthIndex + 1] != !cell.isShaded) {
-                stack.push(
-                    Cell(
-                        cell.widthIndex + 1,
-                            cell.heightIndex,
-                        image[cell.heightIndex][cell.widthIndex + 1]
-                    )
-                )
+                pushUniqueCell(cell.widthIndex + 1, cell.heightIndex)
             }
             //Проверка соседа снизу
             if (cell.heightIndex + 1 < imgHeight && image[cell.heightIndex + 1][cell.widthIndex] != !cell.isShaded) {
-                stack.push(
-                    Cell(
-                            cell.widthIndex,
-                        cell.heightIndex + 1,
-                        image[cell.heightIndex + 1][cell.widthIndex]
-                    )
-                )
+                pushUniqueCell(cell.widthIndex, cell.heightIndex + 1)
             }
             //Проверка соседа слева
             if (cell.widthIndex - 1 >= 0 && image[cell.heightIndex][cell.widthIndex - 1] != !cell.isShaded) {
-                stack.push(
-                    Cell(
-                            cell.widthIndex - 1,
-                        cell.heightIndex,
-                        image[cell.heightIndex][cell.widthIndex - 1]
-                    )
-                )
+                pushUniqueCell(cell.widthIndex - 1, cell.heightIndex)
             }
             //Проверка соседа сверху
             if (cell.heightIndex - 1 >= 0 && image[cell.heightIndex - 1][cell.widthIndex] != !cell.isShaded) {
-                stack.push(
-                    Cell(
-                            cell.widthIndex,
-                        cell.heightIndex - 1,
-                        image[cell.heightIndex - 1][cell.widthIndex]
-                    )
-                )
+                pushUniqueCell(cell.widthIndex, cell.heightIndex - 1)
             }
             logicCallback.onSingleIterationCompleted()
         } else {
             logicCallback.onAllIterationsCompleted()
         }
+    }
+
+    override fun pushUniqueCell(widthIndex: Int, heightIndex: Int) {
+        if (isCollectionAlreadyContainThisCell(widthIndex, heightIndex).not()) {
+            stack.push(
+                    Cell(
+                            widthIndex,
+                            heightIndex,
+                            image[heightIndex][widthIndex]
+                    )
+            )
+        }
+    }
+
+    override fun isCollectionAlreadyContainThisCell(widthIndex: Int, heightIndex: Int): Boolean {
+        var isAlreadyContainThisCell = false
+        val listIterator = stack.listIterator()
+        while (listIterator.hasNext() && !isAlreadyContainThisCell) {
+            val cell = listIterator.next()
+            if (cell.widthIndex == widthIndex && cell.heightIndex == heightIndex) {
+                isAlreadyContainThisCell = true
+            }
+        }
+        return isAlreadyContainThisCell
     }
 }

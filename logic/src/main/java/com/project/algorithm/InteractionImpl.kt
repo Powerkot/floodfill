@@ -1,7 +1,7 @@
 package com.project.algorithm
 
 import com.project.algorithm.algorithms.*
-import com.project.algorithm.algorithms.AlgIterator
+import com.project.algorithm.algorithms.IAlgorithm
 import com.project.algorithm.algorithms.FourWayAlg
 import com.project.algorithm.algorithms.LineHorizontalAlg
 import com.project.algorithm.algorithms.LineVerticalAlg
@@ -14,7 +14,7 @@ class InteractionImpl : Interaction {
     private var imgWidth = -1
     private var imgHeight = -1
     private lateinit var image: Array<BitSet>
-    private lateinit var algIterator: AlgIterator
+    private lateinit var IAlgorithm: IAlgorithm
 
     override fun setImg(imgWidth: Int, imgHeight: Int, image: Array<BitSet>) {
         this.imgWidth = imgWidth
@@ -36,7 +36,7 @@ class InteractionImpl : Interaction {
 
         when (algorithmType) {
             AlgorithmType.FOUR_WAY -> {
-                algIterator = FourWayAlg(
+                IAlgorithm = FourWayAlg(
                     image,
                     imgWidth,
                     imgHeight,
@@ -45,7 +45,7 @@ class InteractionImpl : Interaction {
                 )
             }
             AlgorithmType.LINE_HORIZONTAL -> {
-                algIterator = LineHorizontalAlg(
+                IAlgorithm = LineHorizontalAlg(
                     image,
                     imgWidth,
                     imgHeight,
@@ -54,7 +54,7 @@ class InteractionImpl : Interaction {
                 )
             }
             AlgorithmType.LINE_VERTICAL -> {
-                algIterator = LineVerticalAlg(
+                IAlgorithm = LineVerticalAlg(
                         image,
                         imgWidth,
                         imgHeight,
@@ -68,7 +68,7 @@ class InteractionImpl : Interaction {
     }
 
     override fun next() {
-        algIterator.iteration()
+        IAlgorithm.iteration()
     }
 
     override fun getImage(): Array<BitSet> = image
