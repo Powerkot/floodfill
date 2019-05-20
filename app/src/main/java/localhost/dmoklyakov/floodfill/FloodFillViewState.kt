@@ -21,7 +21,7 @@ class FloodFillViewState : LogicCallback, ViewModel() {
     private var interaction: Interaction = InteractionImpl()
     private var startX = -1
     private var startY = -1
-    var algorithmType = AlgorithmType.FOUR_WAY
+    var algorithmType = AlgorithmType.LINE
     var image = MutableLiveData<Array<BitSet>>()
     var state = MutableLiveData<State>().apply { value = State.IDLE }
     var color1 = MutableLiveData<Int>().apply { value = 0xFFFFFFFF.toInt() }
