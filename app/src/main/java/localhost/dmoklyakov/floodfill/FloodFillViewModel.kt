@@ -20,8 +20,8 @@ class FloodFillViewModel : ViewModel() {
 
     init {
 
-        viewStates.add(FloodFillViewState(width, height))
-        viewStates.add(FloodFillViewState(width, height))
+        viewStates.add(FloodFillViewState())
+        viewStates.add(FloodFillViewState())
         generate()
     }
 
