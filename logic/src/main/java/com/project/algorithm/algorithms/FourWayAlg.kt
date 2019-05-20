@@ -26,8 +26,8 @@ internal class FourWayAlg(
             if (cell.widthIndex + 1 < imgWidth && image[cell.heightIndex][cell.widthIndex + 1] != !cell.isShaded) {
                 stack.push(
                     Cell(
-                        cell.heightIndex,
                         cell.widthIndex + 1,
+                            cell.heightIndex,
                         image[cell.heightIndex][cell.widthIndex + 1]
                     )
                 )
@@ -36,8 +36,8 @@ internal class FourWayAlg(
             if (cell.heightIndex + 1 < imgHeight && image[cell.heightIndex + 1][cell.widthIndex] != !cell.isShaded) {
                 stack.push(
                     Cell(
+                            cell.widthIndex,
                         cell.heightIndex + 1,
-                        cell.widthIndex,
                         image[cell.heightIndex + 1][cell.widthIndex]
                     )
                 )
@@ -46,8 +46,8 @@ internal class FourWayAlg(
             if (cell.widthIndex - 1 >= 0 && image[cell.heightIndex][cell.widthIndex - 1] != !cell.isShaded) {
                 stack.push(
                     Cell(
+                            cell.widthIndex - 1,
                         cell.heightIndex,
-                        cell.widthIndex - 1,
                         image[cell.heightIndex][cell.widthIndex - 1]
                     )
                 )
@@ -56,8 +56,8 @@ internal class FourWayAlg(
             if (cell.heightIndex - 1 >= 0 && image[cell.heightIndex - 1][cell.widthIndex] != !cell.isShaded) {
                 stack.push(
                     Cell(
+                            cell.widthIndex,
                         cell.heightIndex - 1,
-                        cell.widthIndex,
                         image[cell.heightIndex - 1][cell.widthIndex]
                     )
                 )

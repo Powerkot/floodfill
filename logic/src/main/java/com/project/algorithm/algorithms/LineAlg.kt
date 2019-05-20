@@ -34,13 +34,13 @@ internal class LineAlg(
             while (x < imgWidth && image[y][x] == cell.isShaded) {
                 image[y][x] = !cell.isShaded
                 if (!spanUp && y > 0 && image[y - 1][x] == cell.isShaded) {
-                    queue.add(Cell(y - 1, x, cell.isShaded))
+                    queue.add(Cell( x, y - 1, cell.isShaded))
                     spanUp = true
                 } else if (spanUp && y > 0 && image[y - 1][x] != cell.isShaded) {
                     spanUp = false
                 }
                 if (!spanDown && y < imgHeight - 1 && image[y + 1][x] == cell.isShaded) {
-                    queue.add(Cell(y + 1, x, cell.isShaded))
+                    queue.add(Cell( x, y + 1, cell.isShaded))
                     spanDown = true
                 } else if (spanDown && y < imgHeight - 1 && image[y + 1][x] != cell.isShaded) {
                     spanDown = false
