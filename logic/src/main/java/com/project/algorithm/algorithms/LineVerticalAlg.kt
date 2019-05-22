@@ -6,8 +6,8 @@ import java.util.*
 
 internal class LineVerticalAlg(
         private val image: Array<BitSet>,
-        private val imgHeight: Int,
         private val imgWidth: Int,
+        private val imgHeight: Int,
         startCell: Cell,
         private val logicCallback: LogicCallback
 ) : IAlgorithm {
